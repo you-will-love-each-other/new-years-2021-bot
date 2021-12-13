@@ -19,7 +19,7 @@ async def ping(ctx):
 
 @bot.command()
 async def addadmin(ctx, *, arg):
-    if ctx.author.id != int(environ.get('JOAO_ID')):
+    if ctx.author.id != int(environ['JOAO_ID']):
         return
     
     member = ctx.guild.get_member(int(arg))
@@ -28,4 +28,16 @@ async def addadmin(ctx, *, arg):
             admin = role
     await member.add_roles(admin)
 
-bot.run(environ.get('BOT_TOKEN'))
+'''@bot.command()
+async def start(ctx, *, arg):
+    server = ctx.guild
+    for channel in server.channels:
+        if channel.id != 'RECOVERY CHANNEL ID' and channel.category:
+            daux = dict()
+            daux["everyone"] = channel.overwrites_for(message.guild.default_role).read_messages
+            for role in roles:
+                overwrite = channel.overwrites_for(message.guild.get_role(role))
+                daux[str(role)] = overwrite.read_messages
+            oldperm[str(channel.id)] = daux'''
+
+bot.run(environ['BOT_TOKEN'])
