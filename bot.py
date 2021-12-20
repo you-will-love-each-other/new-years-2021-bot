@@ -34,6 +34,17 @@ async def oldperms(ctx):
 async def start(ctx):
     if ctx.author.id != variables.joao_id:
         return
+    #   global
+    everyone_perms = ctx.guild.default_role.permissions
+    everyone_perms.view_channel = False
+    await ctx.guild.default_role.edit(permissions=everyone_perms)
+
+    for role_id in roles:
+        role = ctx.guild.get_role(role_id)
+        perms = role.permissions
+        perms.view_channel = False
+        await role.edit(permissions=perms)
+
     #   @everyone
     for channel in ctx.guild.channels:
         if channel.category and channel.category.name != "MODERATOR CHAT":
@@ -56,6 +67,18 @@ async def start(ctx):
 async def stop(ctx):
     if ctx.author.id != variables.joao_id:
         return
+
+    #   global
+    everyone_perms = ctx.guild.default_role.permissions
+    everyone_perms.view_channel = True
+    await ctx.guild.default_role.edit(permissions=everyone_perms)
+
+    for role_id in roles:
+        role = ctx.guild.get_role(role_id)
+        perms = role.permissions
+        perms.view_channel = True
+        await role.edit(permissions=perms)
+    
     #   the rest of the roles
     for channel in ctx.guild.channels:
         for role_id in roles:
