@@ -71,7 +71,17 @@ async def start(ctx):
                 if overwrite.read_messages:
                     overwrite.read_messages = False
                     await channel.set_permissions(ctx.guild.get_role(role_id), overwrite=overwrite)
-    await ctx.reply("channels hidden")
+    message = await ctx.reply("!imposter")
+    await bot.process_commands(message)
+    
+@bot.command()
+async def imposter(ctx, *, arg):
+    #introduce the concept
+    embed = discord.Embed(title=" ", description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, ea. Repellat voluptates cum provident repudiandae vel assumenda quibusdam quia nihil praesentium minima. Odit voluptatem dignissimos, exercitationem delectus minus atque non?")
+
+    #let people choose who the real member is
+    embed = discord.Embed(title=" ", description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, ea. Repellat voluptates cum provident repudiandae vel assumenda quibusdam quia nihil praesentium minima. Odit voluptatem dignissimos, exercitationem delectus minus atque non?")
+    
 
 @bot.command()
 async def stop(ctx):
@@ -94,14 +104,14 @@ async def stop(ctx):
         for role_id in roles:
             if channel.category and channel.category.name != "MODERATOR CHAT":
                 overwrite = oldperm[str(channel.id)][str(role_id)]
-                if overwrite.read_messages != False:
+                if overwrite.read_messages:
                     await channel.set_permissions(ctx.guild.get_role(role_id), overwrite=overwrite)
 
     #   @everyone
     for channel in ctx.guild.channels:
         if channel.category and channel.category.name != "MODERATOR CHAT":
             overwrite = oldperm[str(channel.id)]["everyone"]
-            if overwrite and overwrite.read_messages != False:
+            if overwrite and overwrite.read_messages:
                 await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
     await ctx.reply("channels are visible")
 
