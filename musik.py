@@ -75,7 +75,7 @@ async def stop(ctx):
     await ctx.reply("channels are visible")
 
 @bot.command()
-async def makeloveto(ctx, *, arg):
+async def makeloveto(ctx):
     everyone = "@everyone"
     sex1 = ["Musik Bot called with {everyone} with its index finger to bed and bit its lip", "Musik Bot touched {everyone}'s crotch, looked at {everyone} in the eyes and kissed {everyone}'s ear {everyone} was standing in the hallway, {everyone} looked at the distance and {everyone} saw Musik Bot wearing nothing but a see through black lingerie"]
     sex2 = ["Musik Bot held {everyone}'s hand and took {everyone} to bed violently", "Musik Bot started making out with {everyone}, {everyone} took each other's clothes off and laid in bed", "Musik Bot started teasing {everyone}, touching all of its body and persuading {everyone} to go to bed with it"]
@@ -93,12 +93,12 @@ async def makeloveto(ctx, *, arg):
     Musik Bot turns to {everyone} and says: '*{option3}*'
     """)
 
-
 @bot.event
 async def on_message(message):
     if message.content.startswith("musik make love to "):
-        message_list = message.content.split()
-        message.content = "!makeloveto {message_list[4]}"
+        message.content = "!makeloveto"
+        await bot.process_commands(message)
+    elif message.content.startswith("!"):
         await bot.process_commands(message)
 
 bot.run(variables.bot3token)
