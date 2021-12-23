@@ -77,13 +77,13 @@ async def stop(ctx):
 @bot.command()
 async def makeloveto(ctx):
     everyone = "@everyone"
-    sex1 = ["Musik Bot called with {everyone} with its index finger to bed and bit its lip", "Musik Bot touched {everyone}'s crotch, looked at {everyone} in the eyes and kissed {everyone}'s ear {everyone} was standing in the hallway, {everyone} looked at the distance and {everyone} saw Musik Bot wearing nothing but a see through black lingerie"]
-    sex2 = ["Musik Bot held {everyone}'s hand and took {everyone} to bed violently", "Musik Bot started making out with {everyone}, {everyone} took each other's clothes off and laid in bed", "Musik Bot started teasing {everyone}, touching all of its body and persuading {everyone} to go to bed with it"]
-    sex3 = ["Thank you so much for tonight, daddy {everyone}. It felt great.", "When will we do this again, {everyone}? hehe", "You are so big, I couldn't handle it, {everyone} Hehe you shouldn't had came inside me, {everyone}"]
+    sex1 = [f"Musik Bot called with {everyone} with its index finger to bed and bit its lip", "Musik Bot touched {everyone}'s crotch, looked at {everyone} in the eyes and kissed {everyone}'s ear {everyone} was standing in the hallway, {everyone} looked at the distance and {everyone} saw Musik Bot wearing nothing but a see through black lingerie"]
+    sex2 = [f"Musik Bot held {everyone}'s hand and took {everyone} to bed violently", "Musik Bot started making out with {everyone}, {everyone} took each other's clothes off and laid in bed", "Musik Bot started teasing {everyone}, touching all of its body and persuading {everyone} to go to bed with it"]
+    sex3 = [f"Thank you so much for tonight, daddy {everyone}. It felt great.", "When will we do this again, {everyone}? hehe", "You are so big, I couldn't handle it, {everyone} Hehe you shouldn't had came inside me, {everyone}"]
     option1 = random.choice(sex1)
     option2 = random.choice(sex2)
     option3 = random.choice(sex3)
-    await ctx.send("""
+    await ctx.send(f"""
     *{option1}*
     *{option2}*
     .
