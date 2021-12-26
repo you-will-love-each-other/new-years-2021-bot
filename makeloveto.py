@@ -23,13 +23,13 @@ async def ping(ctx):
 async def makeloveto(ctx, *, arg):
     await ctx.channel.trigger_typing()
     global he, she, they, it, pronouns
-    if ctx.message.mention_everyone:
+    if ctx.message.mention_everyone or "@everyone" in ctx.message.content:
         await ctx.send("I can't make love to everyone. <:help:736196814654668830>")
         return
-    elif ctx.message.channel_mentions:
+    elif ctx.message.channel_mentions or "<#" in ctx.message.content:
         await ctx.send("I can't make love to a channel. <:help:736196814654668830>")
         return
-    elif ctx.message.role_mentions:
+    elif ctx.message.role_mentions or "<@&" in ctx.message.content:
         await ctx.send("I can't make love to a role. <:help:736196814654668830>")
         return
 
