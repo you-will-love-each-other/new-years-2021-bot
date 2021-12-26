@@ -8,8 +8,8 @@ import asyncio
 intents = discord.Intents().all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command('help')
-flag = True
 he = she = they = it = None
+pronouns = dict()
 
 @bot.event
 async def on_ready():
@@ -22,7 +22,7 @@ async def ping(ctx):
 @bot.command()
 async def makeloveto(ctx, *, arg):
     await ctx.channel.trigger_typing()
-    global he, she, they, it
+    global he, she, they, it, pronouns
     if ctx.message.mention_everyone:
         await ctx.send("I can't make love to everyone. <:help:736196814654668830>")
         return
@@ -41,16 +41,16 @@ async def makeloveto(ctx, *, arg):
     pronoun3 = "their"
     
     if ctx.message.mentions:
-        if len(ctx.message.mentions) > 1 or they in ctx.message.mentions[0].roles:
+        if len(ctx.message.mentions) > 1 or pronouns[ctx.guild]["they"] in ctx.message.mentions[0].roles:
             gender2 = "big"
-        elif it in ctx.message.mentions[0].roles:
+        elif pronouns[ctx.guild]["it"] in ctx.message.mentions[0].roles:
             pronoun1 = "it"
             pronoun2 = pronoun3 = "its"
-        elif she in ctx.message.mentions[0].roles:
+        elif pronouns[ctx.guild]["she"] in ctx.message.mentions[0].roles:
             gender1 = "mommy"
             pronoun1 = "she"
             pronoun2 = pronoun3 = "her"
-        elif he in ctx.message.mentions[0].roles:
+        elif pronouns[ctx.guild]["he"] in ctx.message.mentions[0].roles:
             gender1 = "daddy"
             gender2 = "big"
             pronoun1 = "he"
@@ -78,20 +78,23 @@ Musik Bot turns to {name} and says: '*{option3}*'""")
 
 @bot.event
 async def on_message(message):
-    global flag, he, she, they, it
-    if flag:
+    global he, she, they, it, pronouns
+    if message.guild not in pronouns:
+        message_guild_dict = dict()
+        message_guild_dict["he"] = message_guild_dict["she"] = message_guild_dict["they"] = message_guild_dict["it"] = None
         first = False
         for role in message.guild.roles:
             if role.name == "he/him":
-                he = role
+                message_guild_dict["he"] = role
             elif role.name == "she/her":
-                she = role
+                message_guild_dict["she"] = role
             elif role.name == "they/them":
-                they = role
+                message_guild_dict["they"] = role
             elif role.name == "it/its":
-                it = role
+                message_guild_dict["it"] = role
             elif he and she and they and it:
                 break
+        pronouns[message.guild] = message_guild_dict
 
     if message.content.lower().startswith("musik make love to "):
         message_list = message.content.split()
