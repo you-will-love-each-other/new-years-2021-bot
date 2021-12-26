@@ -87,7 +87,7 @@ async def on_message(message):
             elif he and she and they and it:
                 break
 
-    if message.content.startswith("musik make love to "):
+    if message.content.lower().startswith("musik make love to "):
         message_list = message.content.split()
         message.content = f"!makeloveto {' '.join(message_list[4:])}"
         await bot.process_commands(message)
