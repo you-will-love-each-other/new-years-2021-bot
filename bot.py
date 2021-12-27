@@ -13,6 +13,7 @@ react = None
 qmessage = None
 qflag = None
 letter = None
+imposter_embed = None
 alphabet = {"🇦":"A","🇧":"B","🇨":"C","🇩":"D","🇪":"E","🇫":"F","🇬":"G","🇭":"H","🇮":"I","🇯":"J","🇰":"K","🇱":"L","🇲":"M","🇳":"N","🇴":"O","🇵":"P","🇶":"Q","🇷":"R","🇸":"S","🇹":"T","🇼":"W","🇺":"U","🇻":"V","🇽":"X","🇾":"Y","🇿":"Z"}
 count = 0
 
@@ -133,6 +134,27 @@ async def stop(ctx):
     await ctx.reply("channels are visible")
 
 
+async def eject_animation(member,avatar,channel):
+    animation = [member+"ඞ",member+" was an ඞ",member+" was an Impostor. ඞ"]
+    description = ".             .        .\n    .\n                 .\nඞ\n.          .\n                 .\n .                  ."
+    embed=discord.Embed(title=" ", description=description, color=0xff0000)
+    embed.set_author(name= member + " is being ejected.", icon_url= avatar)
+    message = await channel.send(embed= embed)
+
+    for frame in animation:
+        await asyncio.sleep(2)
+        description = ".             .        .\n    .\n                 .\n{0}\n.          .\n                 .\n .                  .".format(frame)
+        embed=discord.Embed(title=" ", description=description, color=0xff0000)
+        embed.set_author(name= member + " is being ejected.", icon_url= avatar)
+        await message.edit(embed= embed)
+    
+    await asyncio.sleep(2)
+    description = ".             .        .\n    .\n                 .\n{0}\n.          .\n                 .\n .                  .".format(member+" was an Impostor.")
+    embed=discord.Embed(title=" ", description=description, color=0xff0000)
+    embed.set_author(name= member + " has been ejected.", icon_url= avatar)
+    await message.edit(embed= embed)
+
+
 def checkletter(w,l):
     if l not in w:
         return False, -1
@@ -143,6 +165,7 @@ def checkletter(w,l):
 @bot.event
 async def on_reaction_add(reaction, user):
     global react
+    global imposter_embed
     global qmessage
     global alphabet
     global count
@@ -161,7 +184,72 @@ async def on_reaction_add(reaction, user):
             await reaction.message.channel.trigger_typing()
             await asyncio.sleep(3)
             
-            imposters = []
+            imposters_list = [] # [image-url, (username1, username2, real/imposter1, real/imposter2), (username, date, no. messages), (username, date, no. messages), imposter-avatar-url]
+
+            anar = ()
+            alice = ()
+            jonny = ()
+            aura = ()
+            clown = ()
+
+            imposters_list.append(anar)
+            imposters_list.append(alice)
+            imposters_list.append(jonny)
+            imposters_list.append(aura)
+            imposters_list.append(clown)
+
+            for imposters in imposters_list:
+                description = f"""```diff
+- SUBJECT A ({imposters[1][0]})
++ USERNAME:
+  {imposters[2][0]}
++ ACCOUNT CREATED ON:
+  {imposters[2][1]}
++ MESSAGES SENT IN HEALTHCORD:
+  {imposters[2][2]}
+
+- SUBJECT B ({imposters[1][1]})
++ USERNAME:
+  {imposters[3][0]}
++ ACCOUNT CREATED ON:
+  {imposters[3][1]}
++ MESSAGES SENT IN HEALTHCORD:
+  {imposters[3][2]}
+```"""
+                embed = discord.Embed(title= "SUSPICIOUS PROFILES DETECTED :: HUMAN INTERVENTION REQUIRED :: PLEASE IDENTIFY THE IMPOSTER", description= description, color=0xff0000)
+                embed.set_image(url= imposters[0])
+                imposter_embed = reaction.message.channel.send(embed=embed)
+                await imposter_embed.add_reaction("🇦")
+                await imposter_embed.add_reaction("🇧")
+
+                await asyncio.sleep(5)
+
+                description = f"""```diff
+- SUBJECT A ({imposters[1][2]})
++ USERNAME:
+  {imposters[2][0]}
++ ACCOUNT CREATED ON:
+  {imposters[2][1]}
++ MESSAGES SENT IN HEALTHCORD:
+  {imposters[2][2]}
+
+- SUBJECT B ({imposters[1][3]})
++ USERNAME:
+  {imposters[3][0]}
++ ACCOUNT CREATED ON:
+  {imposters[3][1]}
++ MESSAGES SENT IN HEALTHCORD:
+  {imposters[3][2]}
+```"""
+
+                embed = discord.Embed(title= "SUSPICIOUS PROFILES DETECTED :: HUMAN INTERVENTION REQUIRED :: IMPOSTER IDENTIFIED", description= description, color=0x00ff00)
+                embed.set_image(url= imposters[0])
+                imposter_embed = reaction.message.channel.send(embed=embed)
+                await imposter_embed.edit(embed= embed)
+                await eject_animation(imposters[1][1],imposters[4],reaction.message.channel)
+
+
+
             
             album_guess = ("IMPOSTERS SUCCESFULLY EJECTED :: CORRUPTED FILE RECOVERED DURING PROFILE DELETION","BACKXWASH","_________","FILE SUCCESSFULLY RETRIEVED","https://media.discordapp.net/attachments/779092963635494963/924814489612849152/unknown.png","https://media.discordapp.net/attachments/779092963635494963/924814489612849152/unknown.png")
             word = album_guess[1]
@@ -243,10 +331,11 @@ async def on_reaction_add(reaction, user):
             qmessage = False
             qflag = False
 
-    if reaction.message == qmessage and reaction.emoji in alphabet:
-        qflag = True
-        if reaction.count > count:
-            count = reaction.count
-            letter = alphabet[reaction.emoji]
+    if reaction.emoji in alphabet and user.id != bot.user.id:
+        if reaction.message == qmessage:
+            qflag = True
+            if reaction.count > count:
+                count = reaction.count
+                letter = alphabet[reaction.emoji]
 
 bot.run(variables.bottoken)
