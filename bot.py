@@ -89,11 +89,11 @@ async def imposter(ctx):
         return
         
     await ctx.channel.trigger_typing()
-    await asyncio.sleep(1)
+    await asyncio.sleep(3)
     embed = discord.Embed(title="SUSPICIOUS BEHAVIOR DETECTED AMONG THIS SERVER'S ADMINISTRATIVE STAFF :: SCANNING POPULATION", description=" ")
     await ctx.send(embed=embed)
     await ctx.channel.trigger_typing()
-    await asyncio.sleep(1)
+    await asyncio.sleep(3)
 
     embed = discord.Embed(title="SCAN RESULTS :: SEVERAL POTENTIAL IMPOSTER ACCOUNTS HAVE BEEN IDENTIFIED BY DEEP LEARNING METRICS", description=f"**REQUIRES {variables.react_number} <:cacopog:697621015337107466> REACTS TO CONTINUE**")
     react = await bot.get_channel(variables.hotlineID).send(content="@everyone",embed = embed)
@@ -178,19 +178,15 @@ async def on_reaction_add(reaction, user):
         #await user.add_roles(savior,reason="cacopog reaction", atomic=True)
         if reaction.count == variables.react_number:
             await reaction.message.channel.trigger_typing()
-            await asyncio.sleep(1)
-            embed = discord.Embed(title="SUSPICIOUS BEHAVIOR DETECTED AMONG THIS SERVER'S ADMINISTRATIVE STAFF :: SCANNING POPULATION", description=" ")
-            await reaction.message.channel.send(embed=embed)
-            await reaction.message.channel.trigger_typing()
             await asyncio.sleep(3)
             
             imposters_list = [] # [image-url, (username1, username2, real/imposter1, real/imposter2), (username, date, no. messages), (username, date, no. messages), imposter-avatar-url]
-
-            anar = ()
-            alice = ()
-            jonny = ()
-            aura = ()
-            clown = ()
+            
+            anar = ["https://i.imgur.com/lH9ALaO.png", ("ANAR :: LOST IN THE ETHER", "ANAR :: LOST IN THE ΞTHER","FAKE ACCOUNT","REAL ACCOUNT"), ("ANARCHY&ECSTASY#5556","April 2021","231"),("ANARCHY&ECSTASY#5555","April 2020","38680"), "https://i.imgur.com/vH6x9CS.jpg"]
+            alice = ["https://i.imgur.com/6Sddb7e.png", ("//alice++ (uk) :: hurt myself\\\\", "alice++ (uk) :: hurt myself", "REAL ACCOUNT", "FAKE ACCOUNT"), ("n_s#5150","April 2020","129234"),("n_s#4939","April 2021", "5"), "https://i.imgur.com/dF5FHPa.jpg"]
+            jonny = ["https://i.imgur.com/pNXRRIt.png", ("JONNY UTAH", "JOHNNY UTAH", "REAL ACCOUNT", "FAKE ACCOUNT"), ("JONNY UTAH#1382","April 2020","32435"),("JOHNNY UTAH#0435", "April 2021", "4"), "https://i.imgur.com/QSrWuE8.jpg"]
+            aura = ["https://i.imgur.com/HwxN9gp.png", ("AURA","AURA :: BLACKBLOOD", "FAKE ACCOUNT", "REAL ACCOUNT"), ("Aura⚡#4272","April 2021", "6"),("Aura⚡#7274","November 2020","53102"),"https://i.imgur.com/7tQ5Ncx.jpg"]
+            clown = ["https://i.imgur.com/NWZWDVs.png", ("CHAMPAGNE JESTER", "CLOWNPOND", "REAL ACCOUNT", "FAKE ACCOUNT"), ("clownpond#1386","September 2020","30469"),("clownpond#9680","April 2021","3"), "https://i.imgur.com/Sj6lFzs.jpg"]
 
             imposters_list.append(anar)
             imposters_list.append(alice)
@@ -203,7 +199,7 @@ async def on_reaction_add(reaction, user):
 - SUBJECT A ({imposters[1][0]})
 + USERNAME:
   {imposters[2][0]}
-+ ACCOUNT CREATED ON:
++ JOINED HEALTHCORD:
   {imposters[2][1]}
 + MESSAGES SENT IN HEALTHCORD:
   {imposters[2][2]}
@@ -211,18 +207,18 @@ async def on_reaction_add(reaction, user):
 - SUBJECT B ({imposters[1][1]})
 + USERNAME:
   {imposters[3][0]}
-+ ACCOUNT CREATED ON:
++ JOINED HEALTHCORD:
   {imposters[3][1]}
 + MESSAGES SENT IN HEALTHCORD:
   {imposters[3][2]}
 ```"""
                 embed = discord.Embed(title= "SUSPICIOUS PROFILES DETECTED :: HUMAN INTERVENTION REQUIRED :: PLEASE IDENTIFY THE IMPOSTER", description= description, color=0xff0000)
                 embed.set_image(url= imposters[0])
-                imposter_embed = reaction.message.channel.send(embed=embed)
+                imposter_embed = await reaction.message.channel.send(embed=embed)
                 await imposter_embed.add_reaction("🇦")
                 await imposter_embed.add_reaction("🇧")
 
-                await asyncio.sleep(5)
+                await asyncio.sleep(10)
 
                 description = f"""```diff
 - SUBJECT A ({imposters[1][2]})
@@ -244,9 +240,13 @@ async def on_reaction_add(reaction, user):
 
                 embed = discord.Embed(title= "SUSPICIOUS PROFILES DETECTED :: HUMAN INTERVENTION REQUIRED :: IMPOSTER IDENTIFIED", description= description, color=0x00ff00)
                 embed.set_image(url= imposters[0])
-                imposter_embed = reaction.message.channel.send(embed=embed)
                 await imposter_embed.edit(embed= embed)
+
+                await asyncio.sleep(3)
+                
                 await eject_animation(imposters[1][1],imposters[4],reaction.message.channel)
+
+                await asyncio.sleep(3)
 
 
 
