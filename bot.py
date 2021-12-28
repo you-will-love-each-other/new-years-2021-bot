@@ -87,19 +87,26 @@ async def imposter(ctx):
     global react
     if ctx.author.id != variables.joao_id:
         return
-        
-    await ctx.channel.trigger_typing()
+    
+    hotline = bot.get_channel(variables.hotlineID)
+    await hotline.trigger_typing()
     await asyncio.sleep(3)
     embed = discord.Embed(title="SUSPICIOUS BEHAVIOR DETECTED AMONG THIS SERVER'S ADMINISTRATIVE STAFF :: SCANNING POPULATION", description=" ")
-    await ctx.send(embed=embed)
-    await ctx.channel.trigger_typing()
+    await hotline.send(embed=embed)
+    await hotline.trigger_typing()
     await asyncio.sleep(3)
 
     embed = discord.Embed(title="SCAN RESULTS :: SEVERAL POTENTIAL IMPOSTER ACCOUNTS HAVE BEEN IDENTIFIED BY DEEP LEARNING METRICS", description=f"**REQUIRES {variables.react_number} <:cacopog:697621015337107466> REACTS TO CONTINUE**")
-    react = await bot.get_channel(variables.hotlineID).send(content="@everyone",embed = embed)
+    react = await hotline.send(content="@everyone",embed = embed)
     emoji = bot.get_emoji(697621015337107466)
     await react.add_reaction(emoji)
     
+    await hotline.trigger_typing()
+    await asyncio.sleep(3)
+    embed = discord.Embed(title="SUSPICIOUS PROFILES DETECTED :: HUMAN INTERVENTION REQUIRED", description=f"**REQUIRES {variables.react_number} <:cacopog:697621015337107466> REACTS TO CONTINUE**")
+    react = await hotline.send(embed = embed)
+    await hotline.trigger_typing()
+    await asyncio.sleep(3)
 
 @bot.command()
 async def stop(ctx):
@@ -177,16 +184,14 @@ async def on_reaction_add(reaction, user):
     if reaction.message == react and reaction.emoji == cacopog:
         #await user.add_roles(savior,reason="cacopog reaction", atomic=True)
         if reaction.count == variables.react_number:
-            await reaction.message.channel.trigger_typing()
-            await asyncio.sleep(3)
             
             imposters_list = [] # [image-url, (username1, username2, real/imposter1, real/imposter2), (username, date, no. messages), (username, date, no. messages), imposter-avatar-url]
             
-            anar = ["https://i.imgur.com/lH9ALaO.png", ("ANAR :: LOST IN THE ETHER", "ANAR :: LOST IN THE ΞTHER","FAKE ACCOUNT","REAL ACCOUNT"), ("ANARCHY&ECSTASY#5556","April 2021","231"),("ANARCHY&ECSTASY#5555","April 2020","38680"), "https://i.imgur.com/vH6x9CS.jpg"]
-            alice = ["https://i.imgur.com/6Sddb7e.png", ("//alice++ (uk) :: hurt myself\\\\", "alice++ (uk) :: hurt myself", "REAL ACCOUNT", "FAKE ACCOUNT"), ("n_s#5150","April 2020","129234"),("n_s#4939","April 2021", "5"), "https://i.imgur.com/dF5FHPa.jpg"]
-            jonny = ["https://i.imgur.com/pNXRRIt.png", ("JONNY UTAH", "JOHNNY UTAH", "REAL ACCOUNT", "FAKE ACCOUNT"), ("JONNY UTAH#1382","April 2020","32435"),("JOHNNY UTAH#0435", "April 2021", "4"), "https://i.imgur.com/QSrWuE8.jpg"]
-            aura = ["https://i.imgur.com/HwxN9gp.png", ("AURA","AURA :: BLACKBLOOD", "FAKE ACCOUNT", "REAL ACCOUNT"), ("Aura⚡#4272","April 2021", "6"),("Aura⚡#7274","November 2020","53102"),"https://i.imgur.com/7tQ5Ncx.jpg"]
-            clown = ["https://i.imgur.com/NWZWDVs.png", ("CHAMPAGNE JESTER", "CLOWNPOND", "REAL ACCOUNT", "FAKE ACCOUNT"), ("clownpond#1386","September 2020","30469"),("clownpond#9680","April 2021","3"), "https://i.imgur.com/Sj6lFzs.jpg"]
+            anar = ["https://i.imgur.com/lH9ALaO.png", ("ANAR :: LOST IN THE ETHER", "ANAR :: LOST IN THE ΞTHER","FAKE ACCOUNT","REAL ACCOUNT"), ("ANARCHY&ECSTASY#5556","April 2021","231"),("ANARCHY&ECSTASY#5555","April 2020","38680"), ("ANAR :: LOST IN THE ETHER", "https://i.imgur.com/vH6x9CS.jpg")]
+            alice = ["https://i.imgur.com/zmuNZ8c.png", ("//alice++ (uk) :: hurt myself\\\\", "alice++ (uk) :: hurt myself", "REAL ACCOUNT", "FAKE ACCOUNT"), ("n_s#5150","April 2020","129234"),("n_s#4939","April 2021", "5"), ("alice++ (uk) :: hurt myself", "https://i.imgur.com/dF5FHPa.jpg")]
+            jonny = ["https://i.imgur.com/wGePL6Q.png", ("JONNY UTAH", "JOHNNY UTAH", "REAL ACCOUNT", "FAKE ACCOUNT"), ("JONNY UTAH#1382","April 2020","32435"),("JOHNNY UTAH#0435", "April 2021", "4"), ("JOHNNY UTAH", "https://i.imgur.com/QSrWuE8.jpg")]
+            aura = ["https://i.imgur.com/HwxN9gp.png", ("AURA","AURA :: BLACKBLOOD", "FAKE ACCOUNT", "REAL ACCOUNT"), ("Aura⚡#4272","April 2021", "6"),("Aura⚡#7274","November 2020","53102"), ("AURA", "https://i.imgur.com/7tQ5Ncx.jpg")]
+            clown = ["https://i.imgur.com/ZwUNhS7.png", ("CHAMPAGNE JESTER", "CLOWNPOND", "REAL ACCOUNT", "FAKE ACCOUNT"), ("clownpond#1386","September 2020","30469"),("clownpond#9680","April 2021","3"), ("CLOWNPOND", "https://i.imgur.com/Sj6lFzs.jpg")]
 
             imposters_list.append(anar)
             imposters_list.append(alice)
@@ -212,13 +217,16 @@ async def on_reaction_add(reaction, user):
 + MESSAGES SENT IN HEALTHCORD:
   {imposters[3][2]}
 ```"""
-                embed = discord.Embed(title= "SUSPICIOUS PROFILES DETECTED :: HUMAN INTERVENTION REQUIRED :: PLEASE IDENTIFY THE IMPOSTER", description= description, color=0xff0000)
+                embed = discord.Embed(title= "PLEASE IDENTIFY THE IMPOSTER", description= description, color=0xff0000)
                 embed.set_image(url= imposters[0])
                 imposter_embed = await reaction.message.channel.send(embed=embed)
                 await imposter_embed.add_reaction("🇦")
                 await imposter_embed.add_reaction("🇧")
 
-                await asyncio.sleep(10)
+                for i in range(0,10):
+                    await asyncio.sleep(1)
+                    await imposter_embed.edit(content= f"COUNTING THE MOST REACTED OPTION...\n{str(10-i)}", embed= embed)
+
 
                 description = f"""```diff
 - SUBJECT A ({imposters[1][2]})
@@ -238,14 +246,11 @@ async def on_reaction_add(reaction, user):
   {imposters[3][2]}
 ```"""
 
-                embed = discord.Embed(title= "SUSPICIOUS PROFILES DETECTED :: HUMAN INTERVENTION REQUIRED :: IMPOSTER IDENTIFIED", description= description, color=0x00ff00)
+                embed = discord.Embed(title= "IMPOSTER IDENTIFIED", description= description, color=0x00ff00)
                 embed.set_image(url= imposters[0])
-                await imposter_embed.edit(embed= embed)
-
+                await imposter_embed.edit(content="", embed= embed)
                 await asyncio.sleep(3)
-                
-                await eject_animation(imposters[1][1],imposters[4],reaction.message.channel)
-
+                await eject_animation(imposters[4][0],imposters[4][1],reaction.message.channel)
                 await asyncio.sleep(3)
 
 
@@ -271,7 +276,7 @@ async def on_reaction_add(reaction, user):
                     await qmessage.edit(content="", embed= embed)
                     break
                 if qflag:
-                    content = "```\nCOUNTING THE MOST REACTED LETTER...\n" + str(i) + "```"
+                    content = f"```\nCOUNTING THE MOST REACTED LETTER...\n{str(i)}```"
                     i-=1
                     await qmessage.edit(content= content)
                 if i == -1:
@@ -332,6 +337,9 @@ async def on_reaction_add(reaction, user):
             qflag = False
 
     if reaction.emoji in alphabet and user.id != bot.user.id:
+        if reaction.message == imposter_embed:
+            iflag = True
+
         if reaction.message == qmessage:
             qflag = True
             if reaction.count > count:
