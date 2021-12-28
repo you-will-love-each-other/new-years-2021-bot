@@ -265,10 +265,8 @@ async def on_reaction_add(reaction, user):
                 await eject_animation(imposters[4][0],imposters[4][1],reaction.message.channel)
                 await asyncio.sleep(3)
 
-
-
             
-            album_guess = ("IMPOSTERS SUCCESFULLY EJECTED :: CORRUPTED FILE RECOVERED DURING PROFILE DELETION","BACKXWASH","_________","FILE SUCCESSFULLY RETRIEVED","https://media.discordapp.net/attachments/779092963635494963/924814489612849152/unknown.png","https://media.discordapp.net/attachments/779092963635494963/924814489612849152/unknown.png")
+            album_guess = ("IMPOSTERS SUCCESFULLY EJECTED :: CORRUPTED FILE RECOVERED DURING PROFILE DELETION","BACKXWASH","_________","FILE SUCCESSFULLY RETRIEVED","https://media.discordapp.net/attachments/918553475321847858/925477333270396968/THEENDISNYE.png","https://media.discordapp.net/attachments/918553475321847858/925407374796279828/DISCO4_PT2_FRONT_FINAL_FLAT.png")
             word = album_guess[1]
             blank = album_guess[2]
             embed = discord.Embed(title= album_guess[0], description= f"React with a letter from the glitched artist name``{blank}``", color=0xff0000)
