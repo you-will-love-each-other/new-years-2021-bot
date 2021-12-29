@@ -23,7 +23,7 @@ async def oldperms(ctx):
     if ctx.author.id != variables.joao_id:
         return
     for channel in ctx.guild.channels:
-        if channel.category and channel.category.name != "MODERATOR CHAT":
+        if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
             daux = dict()
             daux["everyone"] = channel.overwrites_for(ctx.guild.default_role)
             for role in roles:
@@ -38,7 +38,7 @@ async def start(ctx):
         return
     #   @everyone
     for channel in ctx.guild.channels:
-        if channel.category and channel.category.name != "MODERATOR CHAT":
+        if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
             overwrite = oldperm[str(channel.id)]["everyone"]
             if overwrite.read_messages:
                 overwrite.read_messages = False
@@ -47,7 +47,7 @@ async def start(ctx):
     #   the rest of the roles
     for channel in ctx.guild.channels:
         for role_id in roles:
-            if channel.category and channel.category.name != "MODERATOR CHAT":
+            if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
                 overwrite = oldperm[str(channel.id)][str(role_id)]
                 if overwrite.read_messages:
                     overwrite.read_messages = False
@@ -61,14 +61,14 @@ async def stop(ctx):
     #   the rest of the roles
     for channel in ctx.guild.channels:
         for role_id in roles:
-            if channel.category and channel.category.name != "MODERATOR CHAT":
+            if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
                 overwrite = oldperm[str(channel.id)][str(role_id)]
                 if overwrite.read_messages != False:
                     await channel.set_permissions(ctx.guild.get_role(role_id), overwrite=overwrite)
 
     #   @everyone
     for channel in ctx.guild.channels:
-        if channel.category and channel.category.name != "MODERATOR CHAT":
+        if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
             overwrite = oldperm[str(channel.id)]["everyone"]
             if overwrite and overwrite.read_messages != False:
                 await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)

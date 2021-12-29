@@ -36,10 +36,10 @@ async def admin(ctx):
 
 @bot.command()
 async def oldperms(ctx):
-    if ctx.author.id != variables.joao_id:
+    if ctx.author.id not in [variables.joao_id, bot.user.id]:
         return
     for channel in ctx.guild.channels:
-        if channel.category and channel.category.name != "MODERATOR CHAT":
+        if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
             daux = dict()
             daux["everyone"] = channel.overwrites_for(ctx.guild.default_role)
             for role in roles:
@@ -50,7 +50,7 @@ async def oldperms(ctx):
 
 @bot.command()
 async def start(ctx):
-    if ctx.author.id != variables.joao_id:
+    if ctx.author.id not in [variables.joao_id, bot.user.id]:
         return
     #   global
     everyone_perms = ctx.guild.default_role.permissions
@@ -65,7 +65,7 @@ async def start(ctx):
 
     #   @everyone
     for channel in ctx.guild.channels:
-        if channel.category and channel.category.name != "MODERATOR CHAT":
+        if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
             overwrite = oldperm[str(channel.id)]["everyone"]
             if overwrite.read_messages:
                 overwrite.read_messages = False
@@ -74,7 +74,7 @@ async def start(ctx):
     #   the rest of the roles
     for channel in ctx.guild.channels:
         for role_id in roles:
-            if channel.category and channel.category.name != "MODERATOR CHAT":
+            if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
                 overwrite = oldperm[str(channel.id)][str(role_id)]
                 if overwrite.read_messages:
                     overwrite.read_messages = False
@@ -85,29 +85,29 @@ async def start(ctx):
 @bot.command()
 async def imposter(ctx):
     global react
-    if ctx.author.id != variables.joao_id:
+    if ctx.author.id not in [variables.joao_id, bot.user.id]:
         return
     
-    hotline = bot.get_channel(variables.hotlineID)
-    await hotline.trigger_typing()
+    the_end_is_nyeID = bot.get_channel(variables.the_end_is_nyeIDID)
+    await the_end_is_nyeID.trigger_typing()
     await asyncio.sleep(3)
     embed = discord.Embed(title="SUSPICIOUS BEHAVIOR DETECTED AMONG THIS SERVER'S ADMINISTRATIVE STAFF :: SCANNING POPULATION", description=" ")
-    await hotline.send(embed=embed)
-    await hotline.trigger_typing()
+    await the_end_is_nyeID.send(embed=embed)
+    await the_end_is_nyeID.trigger_typing()
     await asyncio.sleep(3)
 
     embed = discord.Embed(title="SCAN RESULTS :: SEVERAL POTENTIAL IMPOSTER ACCOUNTS HAVE BEEN IDENTIFIED BY DEEP LEARNING METRICS", description=f"**REQUIRES {variables.react_number} <:cacopog:697621015337107466> REACTS TO CONTINUE**")
-    #react = await hotline.send(content="@everyone",embed = embed)
-    react = await hotline.send(embed = embed)
+    #react = await the_end_is_nyeID.send(content="@everyone",embed = embed)
+    react = await the_end_is_nyeID.send(embed = embed)
     emoji = bot.get_emoji(697621015337107466)
     await react.add_reaction(emoji)
 
-    await hotline.trigger_typing()
+    await the_end_is_nyeID.trigger_typing()
     await asyncio.sleep(3)
 
 @bot.command()
 async def stop(ctx):
-    if ctx.author.id != variables.joao_id:
+    if ctx.author.id not in [variables.joao_id, bot.user.id]:
         return
 
     #   global
@@ -124,14 +124,14 @@ async def stop(ctx):
     #   the rest of the roles
     for channel in ctx.guild.channels:
         for role_id in roles:
-            if channel.category and channel.category.name != "MODERATOR CHAT":
+            if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
                 overwrite = oldperm[str(channel.id)][str(role_id)]
                 if overwrite.read_messages:
                     await channel.set_permissions(ctx.guild.get_role(role_id), overwrite=overwrite)
 
     #   @everyone
     for channel in ctx.guild.channels:
-        if channel.category and channel.category.name != "MODERATOR CHAT":
+        if channel.category and channel.category.name != "MODERATOR CHAT" and channel.name != "the-end-is-nye":
             overwrite = oldperm[str(channel.id)]["everyone"]
             if overwrite and overwrite.read_messages:
                 await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
@@ -175,11 +175,11 @@ async def on_reaction_add(reaction, user):
     global count
     global letter
     global qflag
-    #savior = reaction.message.guild.get_role(variables.new_saviorID)
+    savior = reaction.message.guild.get_role(variables.saviorID)
     cacopog = bot.get_emoji(697621015337107466)
 
     if reaction.message == react and reaction.emoji == cacopog:
-        #await user.add_roles(savior,reason="cacopog reaction", atomic=True)
+        await user.add_roles(savior,reason="cacopog reaction", atomic=True)
         if reaction.count == variables.react_number:
             
             imposters_list = [] # [image-url, (username1, username2, real/imposter1, real/imposter2), (username, date, no. messages), (username, date, no. messages), imposter-avatar-url]
