@@ -88,22 +88,20 @@ async def imposter(ctx):
     if ctx.author.id not in [variables.joao_id, bot.user.id]:
         return
     
-    the_end_is_nyeID = bot.get_channel(variables.the_end_is_nyeIDID)
+    the_end_is_nyeID = bot.get_channel(variables.the_end_is_nyeID)
     await the_end_is_nyeID.trigger_typing()
     await asyncio.sleep(3)
     embed = discord.Embed(title="SUSPICIOUS BEHAVIOR DETECTED AMONG THIS SERVER'S ADMINISTRATIVE STAFF :: SCANNING POPULATION", description=" ")
     await the_end_is_nyeID.send(embed=embed)
     await the_end_is_nyeID.trigger_typing()
-    await asyncio.sleep(3)
+    await asyncio.sleep(5)
 
     embed = discord.Embed(title="SCAN RESULTS :: SEVERAL POTENTIAL IMPOSTER ACCOUNTS HAVE BEEN IDENTIFIED BY DEEP LEARNING METRICS", description=f"**REQUIRES {variables.react_number} <:cacopog:697621015337107466> REACTS TO CONTINUE**")
     #react = await the_end_is_nyeID.send(content="@everyone",embed = embed)
     react = await the_end_is_nyeID.send(embed = embed)
     emoji = bot.get_emoji(697621015337107466)
     await react.add_reaction(emoji)
-
-    await the_end_is_nyeID.trigger_typing()
-    await asyncio.sleep(3)
+    await asyncio.sleep(5)
 
 @bot.command()
 async def stop(ctx):
@@ -222,22 +220,24 @@ async def on_reaction_add(reaction, user):
 
                 error_message = None
                 if imposters[1][2] == "REAL":
-                    imposter_option = "🇧"
-                    real_user_option = "🇦"
+                    imposter_option = "B"
                 else:
-                    imposter_option = "🇦"
-                    real_user_option = "🇧"
+                    imposter_option = "A"
                 while True:
+                    count = 0
                     for i in range(0,10):
                         if error_message and i == 3:
                             await error_message.delete()
                         await imposter_embed.edit(content= f"```COUNTING THE MOST REACTED OPTION...\n{str(10-i)}```", embed= embed)
                         await asyncio.sleep(1)
-                    if imposter_embed.reactions.count(imposter_option) > imposter_embed.reactions.count(real_user_option):
+                    if letter == imposter_option:
                         break
                     else:
                         embed_error = discord.Embed(title= "ERROR IDENTIFYING IMPOSTER :: TRY AGAIN", description= " ", color=0xff0000)
                         error_message = await reaction.message.channel.send(content="", embed= embed_error)
+                        await imposter_embed.clear_reactions()
+                        await imposter_embed.add_reaction("🇦")
+                        await imposter_embed.add_reaction("🇧")
 
 
                 description = f"""```diff
@@ -266,13 +266,14 @@ async def on_reaction_add(reaction, user):
                 await asyncio.sleep(3)
 
             
-            album_guess = ("IMPOSTERS SUCCESFULLY EJECTED :: CORRUPTED FILE RECOVERED DURING PROFILE DELETION","BACKXWASH","_________","FILE SUCCESSFULLY RETRIEVED","https://media.discordapp.net/attachments/918553475321847858/925477333270396968/THEENDISNYE.png","https://media.discordapp.net/attachments/918553475321847858/925407374796279828/DISCO4_PT2_FRONT_FINAL_FLAT.png")
+            album_guess = ("IMPOSTERS SUCCESFULLY EJECTED :: CORRUPTED FILE RECOVERED DURING PROFILE DELETION","_ACK_WASH","B___X____","FILE SUCCESSFULLY RETRIEVED","https://media.discordapp.net/attachments/918553475321847858/925477333270396968/THEENDISNYE.png","https://media.discordapp.net/attachments/918553475321847858/925407374796279828/DISCO4_PT2_FRONT_FINAL_FLAT.png")
             word = album_guess[1]
             blank = album_guess[2]
-            embed = discord.Embed(title= album_guess[0], description= f"React with a letter from the glitched artist name``{blank}``", color=0xff0000)
+            embed = discord.Embed(title= album_guess[0], description= f"Guess a collaboration from DISCO4 PART II\nHint: it's an artist in this server.```{blank}```", color=0xff0000)
             embed.set_image(url= album_guess[4])
             qmessage = await reaction.message.channel.send(embed= embed)
 
+            count = 0
             i = 3
             usedletters = []
             wrongletterlist = []
@@ -345,9 +346,15 @@ async def on_reaction_add(reaction, user):
             await asyncio.sleep(2)
             qmessage = False
             qflag = False
+            embed = discord.Embed(title=" ", description=" ", color=0x00ff00)
+            embed.set_image(url="https://i.imgur.com/PFUyjyj.png")
+            await reaction.message.channel.send(embed=embed)
 
     if reaction.emoji in alphabet and user.id != bot.user.id:
-        if reaction.message == qmessage:
+        if reaction.message == imposter_embed and reaction.count > count:
+            count = reaction.count
+            letter = alphabet[reaction.emoji]
+        elif reaction.message == qmessage:
             qflag = True
             if reaction.count > count:
                 count = reaction.count
