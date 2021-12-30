@@ -182,11 +182,11 @@ async def on_reaction_add(reaction, user):
             
             imposters_list = [] # [image-url, (username1, username2, real/imposter1, real/imposter2), (username, date, no. messages), (username, date, no. messages), imposter-avatar-url]
             
-            anar = ["https://i.imgur.com/lH9ALaO.png", ("ANAR :: LOST IN THE ETHER", "ANAR :: LOST IN THE ΞTHER","FAKE","REAL"), ("ANARCHY&ECSTASY#5556","April 2021","231"),("ANARCHY&ECSTASY#5555","April 2020","38680"), ("ANAR :: LOST IN THE ETHER", "https://i.imgur.com/vH6x9CS.jpg")]
-            alice = ["https://i.imgur.com/zmuNZ8c.png", ("//alice++ (uk) :: hurt myself\\\\", "alice++ (uk) :: hurt myself", "REAL", "FAKE"), ("n_s#5150","April 2020","129234"),("n_s#4939","April 2021", "5"), ("alice++ (uk) :: hurt myself", "https://i.imgur.com/dF5FHPa.jpg")]
-            jonny = ["https://i.imgur.com/wGePL6Q.png", ("JONNY UTAH", "JOHNNY UTAH", "REAL", "FAKE"), ("JONNY UTAH#1382","April 2020","32435"),("JOHNNY UTAH#0435", "April 2021", "4"), ("JOHNNY UTAH", "https://i.imgur.com/QSrWuE8.jpg")]
-            aura = ["https://i.imgur.com/HwxN9gp.png", ("AURA","AURA :: BLACKBLOOD", "FAKE", "REAL"), ("Aura⚡#4272","April 2021", "6"),("Aura⚡#7274","November 2020","53102"), ("AURA", "https://i.imgur.com/7tQ5Ncx.jpg")]
-            clown = ["https://i.imgur.com/ZwUNhS7.png", ("CHAMPAGNE JESTER", "CLOWNPOND", "REAL", "FAKE"), ("clownpond#1386","September 2020","30469"),("clownpond#9680","April 2021","3"), ("CLOWNPOND", "https://i.imgur.com/Sj6lFzs.jpg")]
+            anar = ["https://i.imgur.com/lH9ALaO.png", ("ANAR :: LOST IN THE ETHER", "ANAR :: LOST IN THE ΞTHER","FAKE","REAL"), ("ANARCHY&ECSTASY#5556","April 2021","231"),("ANARCHY&ECSTASY#5555","April 2020","38680"), ("ANARCHY&ECSTASY#5556", "https://i.imgur.com/vH6x9CS.jpg")]
+            alice = ["https://i.imgur.com/zmuNZ8c.png", ("//alice++ (uk) :: hurt myself\\\\", "alice++ (uk) :: hurt myself", "REAL", "FAKE"), ("n___s#5150","April 2020","129234"),("n___s#4939","April 2021", "5"), ("n___s#4939", "https://i.imgur.com/dF5FHPa.jpg")]
+            jonny = ["https://i.imgur.com/wGePL6Q.png", ("JONNY UTAH", "JOHNNY UTAH", "REAL", "FAKE"), ("JONNY UTAH#1382","April 2020","32435"),("JOHNNY UTAH#0435", "April 2021", "4"), ("JOHNNY UTAH#0435", "https://i.imgur.com/QSrWuE8.jpg")]
+            aura = ["https://i.imgur.com/HwxN9gp.png", ("AURA","AURA :: BLACKBLOOD", "FAKE", "REAL"), ("Aura⚡#4272","April 2021", "6"),("Aura✨#7274","November 2020","53102"), ("Aura✨#7274", "https://i.imgur.com/7tQ5Ncx.jpg")]
+            clown = ["https://i.imgur.com/ZwUNhS7.png", ("THE CLOWNWARD SPIRAL", "CLOWNPOUND", "REAL", "FAKE"), ("clownpond#1386","September 2020","30469"),("clownpound#9680","April 2021","3"), ("clownpound#9680", "https://i.imgur.com/Sj6lFzs.jpg")]
 
             imposters_list.append(anar)
             imposters_list.append(alice)
